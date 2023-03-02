@@ -1,44 +1,39 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 
 const underl = {
   hidden: { scaleX: 0 },
-  visible: { scaleX: 1, transition:{delay:1.8} },
+  visible: { scaleX: 1 },
   exit: { scaleX: 0 }
 };
 
-const header = {
-  hidden: { y: -200 },
-  visible: { y: 0, transition:{delay:1.3} },
-  visible2: { y: 0, transition:{duration:1} },
-}
-
+const firstBox = {
+  hidden: { scaleY: 0 },
+  visible: { scaleY: 1 },
+  exit: { scaleY: 0 }
+};
+const Box = {
+  hidden: { scaleY: 0 },
+  visible: { scaleY: 1 },
+  exit: { scaleY: 0 }
+};
 
 const Header = ({setCursorVariant}) => {
   const location = useLocation()
   const shouldAnimate = location.pathname == "/beautifulMe";
-  const {scrollYProgress} = useScroll()
-  const x = useTransform(scrollYProgress, [0, 1], [0, -100])
-  const opacity = useTransform(scrollYProgress, [0, .1], [1,0])
-  
-
   return (
-    <StyledHeader
-    variants={header}
-              initial="hidden"
-              animate= {shouldAnimate ? "visible" :  "visible2"}
-              >
+    <StyledHeader>
       <div className='container'>
         <div className='row space-between'>
-          <motion.div style={{opacity:opacity}} className='logo' onMouseEnter={()=>setCursorVariant("ancher")} onMouseLeave={()=>setCursorVariant("default")}>
+          <div className='logo' onMouseEnter={()=>setCursorVariant("ancher")} onMouseLeave={()=>setCursorVariant("default")}>
             <Link to='/'>
                 {/* <img src={require("../images/ig.png")}/> */}
                 @s.honchariuk
                 </Link>
-          </motion.div>
-          <motion.div style={{opacity:opacity}} className={`logo `} onMouseEnter={()=>setCursorVariant("ancher")} onMouseLeave={()=>setCursorVariant("default")}>
+          </div>
+          <div className={`logo `} onMouseEnter={()=>setCursorVariant("ancher")} onMouseLeave={()=>setCursorVariant("default")}>
             <Link to='/beautifulMe'>More Photos</Link>
             <motion.div 
               className="underl" 
@@ -48,7 +43,7 @@ const Header = ({setCursorVariant}) => {
               exit="exit"
               transition={{ duration: 0.5 }}
             />
-          </motion.div>
+          </div>
         </div>
       </div>
     </StyledHeader>
@@ -57,7 +52,7 @@ const Header = ({setCursorVariant}) => {
 
 const StyledHeader = styled(motion.header)`
     font-size: 16px;
-    position: absolute;
+    position: fixed;
     z-index: 99;
     width: 100%;
     font-weight: "700";
